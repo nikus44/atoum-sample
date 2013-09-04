@@ -1,0 +1,281 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    margin: 10px 13px 10px 13px;
+}
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+    clear: both;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+img.left {
+    float: left;
+    margin: 5px 15px 5px 0px;
+}
+
+img.right {
+    float: right;
+    margin: 5px 0px 5px 15px;
+}
+p.center {
+    text-align: center;
+}
+@media screen and (min-width: 768px) {
+    body {
+        width: 748px;
+        margin:10px auto;
+    }
+}
+</style>
+<title>Netbeans + atoum = love <3</title>
+
+</head>
+<body>
+<h3>Netbeans + atoum = love &lt;3</h3>
+
+<p>Hi all! If you are here today, it's because you know and probably use <a href="https://netbeans.org/features/php/">Netbeans</a>. But you probably don't know <a href="http://atoum.org">atoum</a> yet. Too bad, you missed one of the most powerfull and pleasant to use unit testing framework for PHP. Today, atoum is directly integrated in Netbeans and I'm here to introduce this new feature.</p>
+
+<p>We, the atoum team, have one main goal: to provide users a modern, simple and intuitive tool to write unit tests. Integrating atoum in an IDE is a step farther to ease the use of such a tool. In this blog post, I'll try to cover the main functionalities: we will bootstrap a new project using atoum, configure it to be able to trigger our tests and then, we'll see how to debug them. Do not worry, thanks to Tomas and all the Netbeans' team work, this will be easy and will only happen through the Netbeans' user interface.</p>
+
+<h4>Bootstrapping</h4>
+
+<p>Once you have created your new Netbeans project, you will have to build a basic directory structure. Let's use something like this:</p>
+
+<pre><code>.
+├── src
+│   └── netbeans
+│       └── sample
+└── tests
+    └── units
+        └── netbeans
+            └── sample
+</code></pre>
+
+<p>What does this tell us ? We prepared our project to host a <code>netbeans\sample</code> namespace where we will put our sources and a directory to host our tests. The last thing to do before writing the first line of code is to include atoum. atoum is available as a <a href="http://downloads.atoum.org/nightly/mageekguy.atoum.phar">PHAR archive</a>, a <a href="https://packagist.org/packages/atoum/atoum">composer package</a>, or <a href="https://github.com/atoum/atoum">on Github</a>. In the example I'll use <a href="http://getcomposer.org/">composer</a> with the following content in the <code>composer.json</code> file:</p>
+
+<pre><code>{
+    "name": "netbeans/sample",
+    "description": "Netbeans + atoum = love &lt;3",
+    "require-dev": {
+        "atoum/atoum": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "netbeans\\sample": "src"
+        }
+    }
+}
+</code></pre>
+
+<p>This could be automatically generated with Netbeans but I won't cover this step in detail here as it's the matter of one click: right click on your project name and choose Composer and then Install. As soon as you have your dependencies installed, you will be ready to continue.</p>
+
+<h4>Configuring</h4>
+
+<p>
+    <img class="right" src="resources/images/configuring-1.png" title="Project properties - Testing" alt="Project properties - Testing" />
+    This is where we will start using Netbeans features. Let's start by opening the project properties window (right-click on the project name and select "Properties" then go to the "Testing" item in the left tree):    
+</p>
+
+<p>Now, we have to tell Netbeans which directory will hold our tests (still in project's properties, go to the "Sources" item in the left tree):</p>
+
+<p class="center"><img src="resources/images/configuring-2.png" title="Project properties - Testing" alt="Project properties - Testing" /></p>
+
+<p>Use the "Browse" button next to the "Test folder" field and choose the <code>tests</code> directory. You can now save the settings and see that Neatbeans marks the <code>tests</code> as a special folder: "Test Files". This will let it automatically find your test files based on your source filenames.</p>
+
+<p>For now, that's all you need to do to make Netbeans use atoum to run your tests. I told you atoum was a really simple tool: it's a self-contained tool and can run your test without any configuration! Netbeans takes full advantage of this and only asks you to choose your favorite tool by checking a single option! Of course, when you'll be more familiar with the tool, you'll be able to customize it more precisely.</p>
+
+<p>For basic use cases, this should be sufficient and we can go to the next step: writing our first unit test because TDD is a good practice and atoum is oriented on this way of working (but you can also use it other way).</p>
+
+<h4>Writing unit tests</h4>
+
+<p>Before we start writing tests, let me explain some points I skipped until now: when we prepared our workspace, we created a deep tree in the tests directory. This is something that is required by atoum: you have to use namespace to structure your sources and tests and the tests should live in a namespace matching <code>tests\units</code> and your source namespace. In our example, our tests will live in the <code>tests\units\netbeans\sample</code> namespace as our sources are in <code>netbeans\sample</code>. We also follow the PSR-0 convention so our directories match the namespaces to ease autoloading.</p>
+
+<p>So let's go! We want to write a Calculator class which will provide some basic operations: add, multiply and divide. Let's create the file <code>tests/units/netbeans/sample/Calculator.php</code>:</p>
+
+<pre><code>&lt;?php
+namespace tests\units\netbeans\sample;
+
+use atoum;
+
+require __DIR__ . '/../../../../vendor/autoload.php';
+
+class Calculator extends atoum {
+    public function testAdd() {
+        $this
+                -&gt;if($object = new \netbeans\sample\Calculator())
+                -&gt;then
+                    -&gt;integer($object-&gt;add(1, 2))-&gt;isEqualTo(3)
+        ;
+    }
+}
+</code></pre>
+
+<p>We now have our first unit test, so just launch it: click on its filename in the left tree and, as you prefer, use the CMD+F6 shortcut on Mac OS X or use the right-click menu and select "Run". Netbeans should display the result of the test run, saying that a test failed. Exactly what we expect: we tested a method which we don't have yet implemented (TDD FTW!):</p>
+
+<p class="center"><img src="resources/images/result-2.png" title="Unit tests - Failure" alt="Unit tests - Failure" /></p>
+
+<p>What we have to do now is create our tested class and write the <code>add</code> method to make our test pass. Ass I told you, atoum and Netbeans expect your to be PSR-0 compliant so our class will lay in the <code>src/netbeans/sample</code> directory:</p>
+
+<pre><code>&lt;?php
+namespace netbeans\sample;
+
+class Calculator {
+    public function add($a, $b) {
+        return $a + $b;
+    }
+}
+</code></pre>
+
+<p>Using you prefered trigger, you can now rerun the unit test and see that everything is now green!</p>
+
+<p class="center"><img src="resources/images/result-1.png" title="Unit tests - Success" alt="Unit tests - Success" /></p>
+
+<p>This is how netbeans will report the tests results : a shiny progress bar and a list of ran test cases. If you are curious, you will also be able to see the command used to run tests and the raw output produced by atoum which is provided in the <a href="http://podwiki.hexten.net/TAP/TAP.html?page=TAP" title="TAP format">TAP format</a> (I bet you won't want to read this but it's still interesting to know how everything works under the hood):</p>
+
+<p class="center"><img src="resources/images/output-1.png" title="Unit tests - TAP output" alt="Unit tests - TAP output" /></p>
+
+<p>I won't cover the other test methods and let you discover them <a href="https://github.com/jubianchi/atoum-sample">here</a>. We will now switch to a new example to discover another feature: using XDebug to debug our code.</p>
+
+<h4>Debugging</h4>
+
+<p>Netbeans and atoum allow you to easily debug your code using XDebug. This is really handy when dealing with complex classes and tests. To show you how everything works, I'll use a <code>Sorter</code> class which has one method to do a bubble sorting on an array.</p>
+
+<p>But before we can use XDebug with atoum, we'll have to do a bit of configuration. Here is the configuration used for the example:</p>
+
+<pre><code>zend_extension=xdebug.so
+
+xdebug.idekey="netbeans-xdebug"
+xdebug.remote_enable=1
+xdebug.remote_autostart=0
+</code></pre>
+
+<p>What we do here is tell XDebug which IDE key will be used during debug session and enable remote debugging. <code>remote_autostart</code> will prevent atoum's child processes to automatically trigger a new session (yes, atoum runs every test in a single isolated PHP process!).</p>
+
+<p>We are now ready to debug! To start your test in debug mode, you can chose between a keyboard shortcut (CMD+Shift+F5 on Mac OS X) or by right-clicking on the test file and choosing "Debug". But before triggering tests, you will have to put some breakpoint in your code so you can control the execution flow using debugger tools (Step over, step into, …).</p>
+
+<p class="center"><img src="resources/images/xdebug.gif" title="XDebug - Session" alt="XDebug - Session" /></p>
+
+<p>Being able to run s step-by-step debugger in unit tests context will help you debug your code as you can make a specific behavior happen and track the execution in detail using the using the call stack and variables inspectors.</p>
+
+<p class="center"><img src="resources/images/inspectors.png" title="XDebug - Inspectors" alt="XDebug - Inspectors" /></p>
+
+<p>Nothing really new compared to a conventional debugger session but still useful.</p>
+
+<p>I hope the blog post made a good introduction to atoum in Netbeans, and perhaps made you want to test it. Of course, you will find all the code related to this post <a href="https://github.com/jubianchi/atoum-sample">on Github</a>. Feel free to check it out, try it and enjoy using atoum in Netbeans!</p>
+
+<p>
+    <img class="left" style="width: 255px" src="resources/images/love.png" title="Netbeans + atoum = love &lt;3" alt="Netbeans + atoum = love &lt;3" />
+    I wanted to thank everyone who worked on these awesome features, <a href="https://twitter.com/tmysik">Tomáš Myšík</a> for his work on Netbeans but also the entire Netbeans team and all the contributors who helped us make this happen. Finally, if you want to know more about atoum or need help, feel free to join us on <a href="irc://irc.freenode.net/##atoum">IRC</a> or have a look at the <a href="http://docs.atoum.org">documentation</a>.
+</p>
+
+</body>
+</html>
