@@ -223,7 +223,7 @@ class Calculator extends atoum {
 
 <p class="center"><img src="resources/images/result-2.png" title="Unit tests - Failure" alt="Unit tests - Failure" /></p>
 
-<p>What we have to do now is create our tested class and write the <code>add</code> method to make our test pass. Ass I told you, atoum and Netbeans expect your to be PSR-0 compliant so our class will lay in the <code>src/netbeans/sample</code> directory:</p>
+<p>What we have to do now is create our tested class and write the <code>add</code> method to make our test pass. Ass I told you, atoum and Netbeans expect your project to be PSR-0 compliant so our class will lay in the <code>src/netbeans/sample</code> directory:</p>
 
 <pre><code>&lt;?php
 namespace netbeans\sample;
@@ -243,7 +243,9 @@ class Calculator {
 
 <p class="center"><img src="resources/images/output-1.png" title="Unit tests - TAP output" alt="Unit tests - TAP output" /></p>
 
-<p>I won't cover the other test methods and let you discover them <a href="https://github.com/jubianchi/atoum-sample">here</a>. We will now switch to a new example to discover another feature: using XDebug to debug our code.</p>
+<p>I won't cover the other test methods and let you discover them <a href="https://github.com/jubianchi/atoum-sample">here</a>. Using TDD, you will now be able to quickly write a test, run it, see it's failing, switch to your source file (ALT+CMD+T on Mac OS X), write some code to make the test pass, run it, see it's passing, switch to the test (again with ALT+CMD+T), write a failing test, … This is how we do!</p>
+
+<p>We will now switch to a new example to discover another feature: using XDebug to debug our code.</p>
 
 <h4>Debugging</h4>
 
@@ -258,13 +260,13 @@ xdebug.remote_enable=1
 xdebug.remote_autostart=0
 </code></pre>
 
-<p>What we do here is tell XDebug which IDE key will be used during debug session and enable remote debugging. <code>remote_autostart</code> will prevent atoum's child processes to automatically trigger a new session (yes, atoum runs every test in a single isolated PHP process!).</p>
+<p>What we do here is tell XDebug which IDE key will be used during debug session and enable remote debugging. <code>remote_autostart</code> will prevent atoum's child processes to automatically trigger a new session (yes, atoum runs every test in a single isolated PHP process!). If you want to know more about how to configure XDebug for a Netbeans usage, check out this <a href="http://wiki.netbeans.org/HowToConfigureXDebug">documentation</a>.</p>
 
 <p>We are now ready to debug! To start your test in debug mode, you can chose between a keyboard shortcut (CMD+Shift+F5 on Mac OS X) or by right-clicking on the test file and choosing "Debug". But before triggering tests, you will have to put some breakpoint in your code so you can control the execution flow using debugger tools (Step over, step into, …).</p>
 
 <p class="center"><img src="resources/images/xdebug.gif" title="XDebug - Session" alt="XDebug - Session" /></p>
 
-<p>Being able to run s step-by-step debugger in unit tests context will help you debug your code as you can make a specific behavior happen and track the execution in detail using the using the call stack and variables inspectors.</p>
+<p>Being able to run s step-by-step debugger in unit tests context will help you debug your code as you can make a specific behavior happen and track the execution in detail using the call stack and variables inspectors.</p>
 
 <p class="center"><img src="resources/images/inspectors.png" title="XDebug - Inspectors" alt="XDebug - Inspectors" /></p>
 
