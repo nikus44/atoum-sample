@@ -21,10 +21,6 @@ class Calculator extends atoum
         $this
                 ->if($object = new \netbeans\sample\Calculator())
                 ->then
-                    ->exception(function() use ($object, & $number) {
-                        $object->divide($number = rand(1, PHP_INT_MAX), 0);
-                    })
-                        ->isInstanceOf('\\netbeans\\sample\\Calculator\\DivisionByZeroException')                            
                     ->integer($object->divide(4, 2))->isEqualTo(2)
                     ->float($object->divide(2, 3))->isNearlyEqualTo(0.67, pow(10, -2))
         ;
