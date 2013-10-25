@@ -10,10 +10,6 @@ class Calculator
     
     public function divide($a, $b) 
     {            
-        if ($b === 0) {
-            throw new Calculator\DivisionByZeroException();
-        }
-        
         return $a / $b;
     }
     
