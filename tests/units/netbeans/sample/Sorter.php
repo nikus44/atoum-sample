@@ -10,7 +10,7 @@ class Sorter extends atoum
 {
     public function testBubble() 
     {
-        $this
+        $this //represente une Class atoum
                 ->if($object = new TestedClass())
                 ->and($values = $sorted = range(0, 10))
                 ->and(shuffle($values))
